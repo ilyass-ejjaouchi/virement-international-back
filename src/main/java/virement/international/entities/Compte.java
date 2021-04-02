@@ -3,17 +3,25 @@ package virement.international.entities;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
-@AllArgsConstructor @Data @Getter @Setter @NoArgsConstructor
+@Data @Getter @Setter @NoArgsConstructor
 @Entity
 public class Compte {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long numeroCompte;
     private Long solde;
-    private Long IBAN;
+    private String IBAN;
+
+    public Compte(Long numeroCompte, Long solde, String IBAN) {
+        this.numeroCompte = numeroCompte;
+        this.solde = solde;
+        this.IBAN = IBAN;
+    }
+
+    @ManyToOne
+    private Client client;
+    @ManyToOne
+    private Banque banque;
+
 }

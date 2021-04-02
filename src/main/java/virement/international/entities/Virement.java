@@ -22,6 +22,11 @@ public class Virement {
     private String instructionCient;
     private String modeImputation;
     private String retenue;
-    //private Etat etat;
+
+    @ManyToOne
+    private Client client;
+
+    @ManyToOne
+    private Beneficiare beneficiare;
 
 }

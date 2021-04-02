@@ -2,10 +2,8 @@ package virement.international.entities;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @AllArgsConstructor @Data @Getter @Setter @NoArgsConstructor
 @Entity
@@ -13,5 +11,10 @@ public class Banque {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nom;
-    private Long BIC;
+    private String BIC;
+
+    public Banque(String nom, String bic) {
+         this.nom = nom;
+         this.BIC = bic;
+    }
 }
