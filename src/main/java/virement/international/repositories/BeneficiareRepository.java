@@ -6,5 +6,4 @@ import virement.international.entities.Beneficiare;
 
 @Repository
 public interface BeneficiareRepository extends JpaRepository<Beneficiare, Long> {
-
 }

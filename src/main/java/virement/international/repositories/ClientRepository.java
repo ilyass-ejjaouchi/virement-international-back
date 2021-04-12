@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 import virement.international.entities.Client;
 
 @Repository
-public interface ClientRepository extends JpaRepository<Client, Long> {
+public interface ClientRepository extends JpaRepository<Client, String> {
 
 }

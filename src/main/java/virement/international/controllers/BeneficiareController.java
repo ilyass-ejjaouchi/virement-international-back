@@ -21,19 +21,16 @@ public class BeneficiareController {
     }
     @PostMapping("/beneficiares")
     public void addBeneficiare(
-            @RequestParam  String nom,
             @RequestParam String nature,
             @RequestParam String type,
             @RequestParam String libelle,
-            @RequestParam String devise,
-            @RequestParam String iban,
             @RequestParam String pays,
             @RequestParam String adresse1,
-            @RequestParam String adresse2,
-            @RequestParam String adresse3,
-            @RequestParam String routing
+            @RequestParam(required = false) String adresse2,
+            @RequestParam(required = false) String adresse3
     ) {
-       Beneficiare b = new Beneficiare(nom,nature,type,libelle,devise,iban,pays,adresse1,adresse2,adresse3,routing);
+       Beneficiare b = new Beneficiare(nature,type,libelle,pays,adresse1,adresse2,adresse3);
        beneficiareRepo.save(b);
     }
 }
+

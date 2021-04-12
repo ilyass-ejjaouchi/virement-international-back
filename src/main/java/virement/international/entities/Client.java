@@ -11,14 +11,15 @@ import java.util.List;
 @Entity
 public class Client {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long referenceClient;
-    private Long nom;
+    private String referenceClient;
+    private String nom;
+    private String prenom;
+
+
 
     @Enumerated(EnumType.STRING)
     private TypeClient type;
-
-    private String civilite;
+    private String pays;
     private String adresse1;
     private String adresse2;
     private String adresse3;

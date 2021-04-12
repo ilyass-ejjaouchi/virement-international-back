@@ -4,6 +4,8 @@ package virement.international.entities;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @AllArgsConstructor @Data @Getter @Setter @NoArgsConstructor
@@ -13,12 +15,11 @@ public class Virement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String type;
-    private Date dateExecution;
+    private LocalDate dateExecution;
     private String devise;
     private Long montant;
     private Long contreValeur;
     private String motif;
-    private Long refClient;
     private String instructionCient;
     private String modeImputation;
     private String retenue;
@@ -29,4 +30,15 @@ public class Virement {
     @ManyToOne
     private Beneficiare beneficiare;
 
+    public Virement(String type, LocalDate dateExecution, String devise, long montant, long contreValeur, String motif, String instructionCient, String modeImputation, String retenue) {
+    this.type = type;
+    this.dateExecution = dateExecution;
+    this.devise = devise;
+    this.montant = montant;
+    this.contreValeur = contreValeur;
+    this.motif = motif;
+    this.instructionCient = instructionCient;
+    this.modeImputation = modeImputation;
+    this.retenue = retenue;
+    }
 }
