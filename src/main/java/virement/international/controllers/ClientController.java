@@ -32,7 +32,7 @@ public class ClientController {
             @RequestParam  String adresse2,
             @RequestParam  String adresse3
     ) {
-       Client c = new Client(referenceClient,nom,prenom,type,pays,adresse1,adresse2,adresse3);
-       clientRepo.save(c);
+      /* Client c = new Client(referenceClient,nom,prenom,type,pays,adresse1,adresse2,adresse3);
+       clientRepo.save(c);*/
     }
 }

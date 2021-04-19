@@ -24,13 +24,16 @@ public class Virement {
     private String modeImputation;
     private String retenue;
 
-    @ManyToOne
-    private Client client;
+    @Enumerated(EnumType.STRING)
+    private EtatVirement etat;
 
-    @ManyToOne
-    private Beneficiare beneficiare;
+    @OneToOne
+    private Compte compteDebite;
+    @OneToOne
+    private Compte compteCredite;
 
-    public Virement(String type, LocalDate dateExecution, String devise, long montant, long contreValeur, String motif, String instructionCient, String modeImputation, String retenue) {
+    public Virement(String type, LocalDate dateExecution, String devise, long montant, long contreValeur,
+                    String motif, String instructionCient, String modeImputation, String retenue, EtatVirement etat) {
     this.type = type;
     this.dateExecution = dateExecution;
     this.devise = devise;
@@ -40,5 +43,7 @@ public class Virement {
     this.instructionCient = instructionCient;
     this.modeImputation = modeImputation;
     this.retenue = retenue;
+    this.etat = etat;
     }
+
 }

@@ -2,10 +2,8 @@ package virement.international.entities;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @AllArgsConstructor @Data @Getter @Setter @NoArgsConstructor
 @Entity
@@ -20,6 +18,7 @@ public class Beneficiare {
     private String adresse1;
     private String adresse2;
     private String adresse3;
+
 
     public Beneficiare(String nature, String type, String libelle,String pays, String adresse1, String adresse2, String adresse3) {
         this.nature = nature;

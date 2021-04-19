@@ -2,6 +2,7 @@ package virement.international.entities;
 
 
 import lombok.*;
+import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 
@@ -22,9 +23,9 @@ public class Compte {
         this.devise = devise;
     }
 
-    @ManyToOne
+    @ManyToOne @JsonIgnore
     private Client client;
-    @ManyToOne
+    @ManyToOne @JsonIgnore
     private Beneficiare beneficiare;
     @ManyToOne
     private Banque banque;
