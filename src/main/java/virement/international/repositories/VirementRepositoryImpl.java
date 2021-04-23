@@ -1,7 +1,7 @@
 package virement.international.repositories;
 
 import org.springframework.stereotype.Repository;
-import virement.international.entities.EtatVirement;
+import virement.international.entities.Etat;
 import virement.international.entities.Virement;
 
 import javax.persistence.EntityManager;
@@ -20,7 +20,7 @@ public class VirementRepositoryImpl implements VirementRepoCustom  {
     EntityManager em;
 
     @Override
-    public List<Virement> findVirementByMultiCritere(EtatVirement etat, Long montantMax, Long montantMin,LocalDate dateMin, LocalDate dateMax) {
+    public List<Virement> findVirementByMultiCritere(Etat etat, Long montantMax, Long montantMin, LocalDate dateMin, LocalDate dateMax) {
         CriteriaBuilder cv = em.getCriteriaBuilder();
         CriteriaQuery<Virement> cq = cv.createQuery(Virement.class);
         Root<Virement> virement = cq.from(Virement.class);

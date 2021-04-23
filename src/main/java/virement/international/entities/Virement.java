@@ -5,8 +5,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 
 @AllArgsConstructor @Data @Getter @Setter @NoArgsConstructor
 @Entity
@@ -25,7 +23,7 @@ public class Virement {
     private String retenue;
 
     @Enumerated(EnumType.STRING)
-    private EtatVirement etat;
+    private Etat etat;
 
     @OneToOne
     private Compte compteDebite;
@@ -33,7 +31,7 @@ public class Virement {
     private Compte compteCredite;
 
     public Virement(String type, LocalDate dateExecution, String devise, long montant, long contreValeur,
-                    String motif, String instructionCient, String modeImputation, String retenue, EtatVirement etat) {
+                    String motif, String instructionCient, String modeImputation, String retenue, Etat etat) {
     this.type = type;
     this.dateExecution = dateExecution;
     this.devise = devise;

@@ -1,8 +1,8 @@
 package virement.international.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 
@@ -23,7 +23,7 @@ public class Compte {
         this.devise = devise;
     }
 
-    @ManyToOne @JsonIgnore
+    @ManyToOne
     private Client client;
     @ManyToOne @JsonIgnore
     private Beneficiare beneficiare;

@@ -10,5 +10,5 @@ import java.util.List;
 
 @Repository
 public interface CompteRepository extends JpaRepository<Compte, Long> {
-
+public Beneficiare findByBeneficiare(Beneficiare b);
 }

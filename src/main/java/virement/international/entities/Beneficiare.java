@@ -1,5 +1,6 @@
 package virement.international.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -14,13 +15,19 @@ public class Beneficiare {
     private String nature;
     private String type;
     private String libelle;
+    private String devise;
     private String pays;
     private String adresse1;
     private String adresse2;
     private String adresse3;
 
+    @OneToOne
+    private Compte compte;
 
-    public Beneficiare(String nature, String type, String libelle,String pays, String adresse1, String adresse2, String adresse3) {
+    @Enumerated(EnumType.STRING)
+    private Etat etat;
+
+    public Beneficiare(String nature, String type,String devise, Etat etat, String libelle,String pays, String adresse1, String adresse2, String adresse3) {
         this.nature = nature;
         this.type = type;
         this.libelle = libelle;
@@ -28,5 +35,8 @@ public class Beneficiare {
         this.adresse1 = adresse1;
         this.adresse2 = adresse2;
         this.adresse3 = adresse3;
+        this.devise = devise;
+        this.etat = etat;
     }
+
 }

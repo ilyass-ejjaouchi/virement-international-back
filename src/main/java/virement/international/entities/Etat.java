@@ -1,7 +1,7 @@
 package virement.international.entities;
 import virement.international.exceptions.BadRequestException;
 
-public enum EtatVirement {
+public enum Etat {
     ENREGISTRÉ("ENREGISTRÉ"),
     EN_COURS_DE_SIGNATURE("EN_COURS_DE_SIGNATURE"),
     EN_COURS_DE_TRAITEMENT("EN_COURS_DE_TRAITEMENT"),
@@ -12,32 +12,32 @@ public enum EtatVirement {
     TRAITÉ("TRAITÉ");
     private String etat = "";
 
-    EtatVirement(String etat){
+    Etat(String etat){
         this.etat = etat;
     }
 
     public String getEtat() {
         return etat;
     }
-    public static EtatVirement fromEtat( String etat) {
+    public static Etat fromEtat(String etat) {
         if (etat == null) return null;
         switch (etat) {
             case "ENREGISTRÉ":
-                return EtatVirement.ENREGISTRÉ;
+                return Etat.ENREGISTRÉ;
             case "EN_COURS_DE_SIGNATURE":
-                return EtatVirement.EN_COURS_DE_SIGNATURE;
+                return Etat.EN_COURS_DE_SIGNATURE;
             case "ABANDONNÉ":
-                return EtatVirement.ABANDONNÉ;
+                return Etat.ABANDONNÉ;
             case "SIGNÉ":
-                return EtatVirement.SIGNÉ;
+                return Etat.SIGNÉ;
             case "ANNULÉ":
-                return EtatVirement.ANNULÉ;
+                return Etat.ANNULÉ;
             case "EN_COURS_DE_TRAITEMENT":
-                return EtatVirement.EN_COURS_DE_TRAITEMENT;
+                return Etat.EN_COURS_DE_TRAITEMENT;
             case "NON_VALIDÉ":
-                return EtatVirement.NON_VALIDÉ;
+                return Etat.NON_VALIDÉ;
             case "TRAITÉ":
-                return EtatVirement.TRAITÉ;
+                return Etat.TRAITÉ;
             default:
                 throw new BadRequestException("l' accronyme [" + etat + "] n' est pas supporté.");
         }

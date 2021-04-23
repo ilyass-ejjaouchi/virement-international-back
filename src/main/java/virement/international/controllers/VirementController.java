@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import virement.international.entities.EtatVirement;
+import virement.international.entities.Etat;
 import virement.international.entities.Virement;
 import virement.international.repositories.ClientRepository;
 import virement.international.repositories.VirementRepository;
@@ -31,7 +31,7 @@ public class VirementController {
         LocalDate dateDebut = null, dateFin = null;
         if (dateMin != null) dateDebut = LocalDate.parse(dateMin);
         if (dateMax != null) dateFin = LocalDate.parse(dateMax);
-        return virementRepo.findVirementByMultiCritere(EtatVirement.fromEtat(etat), montantMax, montantMin, dateDebut, dateFin);
+        return virementRepo.findVirementByMultiCritere(Etat.fromEtat(etat), montantMax, montantMin, dateDebut, dateFin);
 
     }
     @PostMapping("/virements")
@@ -47,7 +47,7 @@ public class VirementController {
         @RequestParam(required=false)  String instructionClient,
         @RequestParam(required=false) String modeImputation,
         @RequestParam(required=false) String retenue,
-        @RequestParam EtatVirement etat,
+        @RequestParam Etat etat,
         @RequestParam (required=false) Long id
     ) {
         return virementService.creeVirement(id,type, LocalDate.parse(dateExecution),devise,montant,contreValeur,motif,instructionClient, modeImputation,retenue,etat,idCompteCrediter,idCompteDebiter);
@@ -56,9 +56,9 @@ public class VirementController {
     @PutMapping("/virements/{idVirement}")
     public Virement updateVirement(
             @PathVariable Long idVirement,
-            @RequestParam EtatVirement etatVirement) {
+            @RequestParam String etatVirement) {
         Virement virement = virementRepo.findById(idVirement).get();
-        virement.setEtat(etatVirement);
+        virement.setEtat(Etat.fromEtat(etatVirement));
         return virementRepo.save(virement);
     }
 
@@ -68,9 +68,9 @@ public class VirementController {
         switch (v.getEtat()){
             case ENREGISTRÉ:
             case EN_COURS_DE_SIGNATURE:
-                v.setEtat(EtatVirement.ABANDONNÉ); break;
-            case SIGNÉ: v.setEtat(EtatVirement.ANNULÉ); break;
-            case EN_COURS_DE_TRAITEMENT: v.setEtat(EtatVirement.NON_VALIDÉ);break;
+                v.setEtat(Etat.ABANDONNÉ); break;
+            case SIGNÉ: v.setEtat(Etat.ANNULÉ); break;
+            case EN_COURS_DE_TRAITEMENT: v.setEtat(Etat.NON_VALIDÉ);break;
             case ABANDONNÉ: throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "VOUS NE POUVEZ PAS SUPPRIMER LE VIREMENT, LE VIREMENT EST DEJA ABANDONNÉ");
             case ANNULÉ: throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
