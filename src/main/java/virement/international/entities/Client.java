@@ -3,13 +3,14 @@ package virement.international.entities;
 
 
 import lombok.*;
+import virement.international.config.security.dto.AppUser;
 
 import javax.persistence.*;
 import java.util.List;
 
 @AllArgsConstructor @Data @Getter @Setter @NoArgsConstructor
 @Entity
-public class Client {
+public class Client{
     @Id
     private String referenceClient;
     private String nom;

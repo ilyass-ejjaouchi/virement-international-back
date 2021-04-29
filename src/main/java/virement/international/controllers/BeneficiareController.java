@@ -1,6 +1,9 @@
 package virement.international.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -20,8 +23,10 @@ public class BeneficiareController {
     @Autowired public CompteRepository compteRepo;
 
     @GetMapping("/beneficiares")
-    public List<Beneficiare> getBeneficiares() {
-        return beneficiareRepo.findAll();
+    public Page<Beneficiare> getBeneficiares(@RequestParam(name = "page") int p,
+                                             @RequestParam(name = "size") int size) {
+        Pageable page = PageRequest.of(p, size);
+        return beneficiareRepo.findAll(page);
     }
     @PostMapping("/beneficiares")
     public Beneficiare addBeneficiare(

@@ -2,13 +2,14 @@ package virement.international.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import virement.international.config.security.dto.AppUser;
 
 import javax.persistence.*;
 import java.util.List;
 
 @AllArgsConstructor @Data @Getter @Setter @NoArgsConstructor
 @Entity
-public class Beneficiare {
+public class Beneficiare{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -1,6 +1,10 @@
 package virement.international.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -21,17 +25,20 @@ public class VirementController {
     @Autowired public ClientRepository clientRepo;
 
     @GetMapping("/virements")
-    public List<Virement> getVirements(
+    public Page<Virement> getVirements(
             @RequestParam(name = "etat", required = false)  String etat,
             @RequestParam(name = "montantMin", required = false)  Long montantMax,
             @RequestParam(name = "montantMax", required = false)  Long montantMin,
             @RequestParam(name = "dateMin", required = false)  String dateMin,
-            @RequestParam(name = "dateMax", required = false) String dateMax
+            @RequestParam(name = "dateMax", required = false) String dateMax,
+            @RequestParam(name = "page") int p,
+            @RequestParam(name = "size") int size
     ) {
         LocalDate dateDebut = null, dateFin = null;
         if (dateMin != null) dateDebut = LocalDate.parse(dateMin);
         if (dateMax != null) dateFin = LocalDate.parse(dateMax);
-        return virementRepo.findVirementByMultiCritere(Etat.fromEtat(etat), montantMax, montantMin, dateDebut, dateFin);
+        Pageable page = PageRequest.of(p, size);
+        return virementRepo.findVirementByMultiCritere(Etat.fromEtat(etat), montantMax, montantMin, dateDebut, dateFin,page);
 
     }
     @PostMapping("/virements")
@@ -86,5 +93,12 @@ public class VirementController {
     public Virement getVirement(@PathVariable Long id) {
         if (virementRepo.findById(id).isPresent()) return virementRepo.findById(id).get();
         else throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"le virements n'existe pas");
+    }
+    @GetMapping(path = "/virementsByCriteria")
+    public List<Virement> getVirementsByCriteria(
+            @RequestParam(name = "etat", required = false)  String etat
+    ) {
+       return virementRepo.getViremtsByCriteria(Etat.fromEtat(etat));
+
     }
 }
