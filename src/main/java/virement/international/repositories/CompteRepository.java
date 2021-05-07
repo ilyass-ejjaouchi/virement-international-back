@@ -11,4 +11,7 @@ import java.util.List;
 @Repository
 public interface CompteRepository extends JpaRepository<Compte, Long> {
 public Beneficiare findByBeneficiare(Beneficiare b);
+public List<Compte> findByClient(Client c);
+public Compte findByIBAN(String iban);
+
 }

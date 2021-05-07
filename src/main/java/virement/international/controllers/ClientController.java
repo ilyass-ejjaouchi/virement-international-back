@@ -1,24 +1,31 @@
 package virement.international.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import virement.international.config.security.dto.AppUser;
 import virement.international.entities.Banque;
 import virement.international.entities.Client;
 import virement.international.entities.TypeClient;
+import virement.international.repositories.AppUserRepository;
 import virement.international.repositories.BanqueRepository;
 import virement.international.repositories.ClientRepository;
+import virement.international.repositories.CompteRepository;
 
 import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*")
 public class ClientController {
-    @Autowired
-    public ClientRepository clientRepo;
+    @Autowired public ClientRepository clientRepo;
+    @Autowired public AppUserRepository userRepository;
 
-    @GetMapping("/clients")
-    public List<Client> getClients() {
-        return clientRepo.findAll();
+    @GetMapping("/currentClient")
+    public Client getClients() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        AppUser appUser = userRepository.findByIdentifiant(authentication.getName());
+        return appUser.getClient();
     }
 
     @PostMapping("/clients")

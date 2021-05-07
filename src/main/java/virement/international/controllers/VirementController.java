@@ -1,7 +1,6 @@
 package virement.international.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +30,7 @@ public class VirementController {
             @RequestParam(name = "montantMax", required = false)  Long montantMin,
             @RequestParam(name = "dateMin", required = false)  String dateMin,
             @RequestParam(name = "dateMax", required = false) String dateMax,
+            @RequestParam(name = "numeroCompte", required = false) Long numeroCompte,
             @RequestParam(name = "page") int p,
             @RequestParam(name = "size") int size
     ) {
@@ -38,7 +38,7 @@ public class VirementController {
         if (dateMin != null) dateDebut = LocalDate.parse(dateMin);
         if (dateMax != null) dateFin = LocalDate.parse(dateMax);
         Pageable page = PageRequest.of(p, size);
-        return virementRepo.findVirementByMultiCritere(Etat.fromEtat(etat), montantMax, montantMin, dateDebut, dateFin,page);
+        return virementRepo.findVirementByMultiCritere(Etat.fromEtat(etat), montantMax, montantMin, dateDebut, dateFin, numeroCompte,page);
 
     }
     @PostMapping("/virements")
@@ -57,7 +57,7 @@ public class VirementController {
         @RequestParam Etat etat,
         @RequestParam (required=false) Long id
     ) {
-        return virementService.creeVirement(id,type, LocalDate.parse(dateExecution),devise,montant,contreValeur,motif,instructionClient, modeImputation,retenue,etat,idCompteCrediter,idCompteDebiter);
+        return virementService.creeVirement(id,type, LocalDate.parse(dateExecution),devise,montant,contreValeur,motif,instructionClient, modeImputation,false ,retenue,etat,idCompteDebiter,idCompteCrediter);
     }
 
     @PutMapping("/virements/{idVirement}")
@@ -69,8 +69,8 @@ public class VirementController {
         return virementRepo.save(virement);
     }
 
-    @DeleteMapping(path = "/virements/{id}")
-    public List<Virement> deleteVirement(@PathVariable Long id) {
+    @PostMapping(path = "/deleteVirements/{id}")
+    public Page<Virement> deleteVirement(@PathVariable Long id) {
         Virement v = virementRepo.findById(id).get();
         switch (v.getEtat()){
             case ENREGISTRÉ:
@@ -86,7 +86,7 @@ public class VirementController {
                     "VOUS NE POUVEZ PAS SUPPRIMER LE VIREMENT, LE VIREMENT EST DEJA TRAITÉ");
         }
         virementRepo.save(v);
-        return virementRepo.findAll();
+        return virementRepo.findAll(PageRequest.of(0, 5));
     }
 
     @GetMapping(path = "/virements/{id}")

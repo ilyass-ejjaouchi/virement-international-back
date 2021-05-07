@@ -20,6 +20,7 @@ public class Virement {
     private String motif;
     private String instructionCient;
     private String modeImputation;
+    private boolean justificatif;
     private String retenue;
 
     @Enumerated(EnumType.STRING)
@@ -31,7 +32,7 @@ public class Virement {
     private Compte compteCredite;
 
     public Virement(String type, LocalDate dateExecution, String devise, long montant, long contreValeur,
-                    String motif, String instructionCient, String modeImputation, String retenue, Etat etat) {
+                    String motif, String instructionCient, String modeImputation,boolean justificatif, String retenue, Etat etat) {
     this.type = type;
     this.dateExecution = dateExecution;
     this.devise = devise;
@@ -41,6 +42,7 @@ public class Virement {
     this.instructionCient = instructionCient;
     this.modeImputation = modeImputation;
     this.retenue = retenue;
+    this.justificatif = justificatif;
     this.etat = etat;
     }
 

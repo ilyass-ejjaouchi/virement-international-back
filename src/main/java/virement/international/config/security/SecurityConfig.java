@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -24,10 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	AuthoritiesService authoritiesService;*/
 
 	private static final String[] WHITE_LIST = {
-			// -- swagger ui
-			"/v2/api-docs", "/swagger-resources", "/swagger-resources/**", "/configuration/ui",
-			"/configuration/security", "/swagger-ui.html","/login/**","/users/**"
-			// other public endpoints of your API may be appended to this array
+			"/login/**","/users/**"
 	};
 	@Autowired
 	private UserDetailsService userDetailsService;
@@ -39,6 +37,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
 	}
 
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+		web.ignoring().antMatchers("/v2/api-docs",
+				"/configuration/ui",
+				"/swagger-resources/**",
+				"/configuration/security",
+				"/swagger-ui.html",
+				"/webjars/**");
+	}
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable()

@@ -2,10 +2,8 @@ package virement.international.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import virement.international.config.security.dto.AppUser;
 
 import javax.persistence.*;
-import java.util.List;
 
 @AllArgsConstructor @Data @Getter @Setter @NoArgsConstructor
 @Entity
@@ -24,6 +22,9 @@ public class Beneficiare{
 
     @OneToOne
     private Compte compte;
+
+    @ManyToOne @JsonIgnore
+    private Client client;
 
     @Enumerated(EnumType.STRING)
     private Etat etat;

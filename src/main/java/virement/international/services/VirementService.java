@@ -17,13 +17,13 @@ public class VirementService {
     @Autowired CompteRepository compteRepo;
 
     public Virement creeVirement(Long id, String type, LocalDate dateExecution, String devise,
-                                 long montant, long contreValeur, String motif,
-                                 String instructionClient, String modeImputation,
-                                 String retenue, Etat etat, long idCompteDebiter, long idCompteCrediter){
+                                 long montant, long contreValeur, String motif, String instructionClient,
+                                 String modeImputation,boolean justificatif, String retenue,
+                                 Etat etat, long idCompteDebiter, long idCompteCrediter){
 
         Compte compteDebiter = compteRepo.findById(idCompteDebiter).get();
         Compte compteCrediter = compteRepo.findById(idCompteCrediter).get();
-        Virement v = new Virement(type,dateExecution,devise,montant,contreValeur,motif,instructionClient,modeImputation,retenue,etat);
+        Virement v = new Virement(type,dateExecution,devise,montant,contreValeur,motif,instructionClient,modeImputation,justificatif,retenue,etat);
         v.setCompteCredite(compteCrediter);
         v.setCompteDebite(compteDebiter);
         v.setId(id);

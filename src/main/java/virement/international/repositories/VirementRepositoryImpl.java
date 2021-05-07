@@ -1,9 +1,14 @@
 package virement.international.repositories;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
+import virement.international.config.security.dto.AppUser;
+import virement.international.entities.Compte;
 import virement.international.entities.Etat;
 import virement.international.entities.Virement;
 
@@ -22,13 +27,21 @@ import java.util.List;
 public class VirementRepositoryImpl implements VirementRepoCustom  {
     @PersistenceContext
     EntityManager em;
+    @Autowired AppUserRepository userRepository;
+    @Autowired CompteRepository compteRepository;
 
     @Override
-    public Page<Virement> findVirementByMultiCritere(Etat etat, Long montantMax, Long montantMin, LocalDate dateMin, LocalDate dateMax, Pageable page) {
+    public Page<Virement> findVirementByMultiCritere(Etat etat, Long montantMax, Long montantMin, LocalDate dateMin, LocalDate dateMax, Long numeroCompte, Pageable page) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        AppUser appUser = userRepository.findByIdentifiant(authentication.getName());
+        List<Compte> comptes = compteRepository.findByClient(appUser.getClient());
+
         CriteriaBuilder cv = em.getCriteriaBuilder();
         CriteriaQuery<Virement> cq = cv.createQuery(Virement.class);
         Root<Virement> virement = cq.from(Virement.class);
         List<Predicate> predicates = new ArrayList<>();
+        predicates.add(virement.get("compteDebite").in(comptes));
+
         if (etat != null) {
             predicates.add(cv.equal(virement.get("etat"), etat));
         }
@@ -43,6 +56,12 @@ public class VirementRepositoryImpl implements VirementRepoCustom  {
         }
         if (dateMax != null) {
             predicates.add(cv.lessThan(virement.get("dateExecution"), dateMax));
+        }
+        if (numeroCompte != null) {
+            Compte compte = compteRepository.findById(numeroCompte).get();
+            predicates.add(cv.equal(virement.get("compteDebite"), compte));
+        }else{
+            predicates.add(virement.get("compteDebite").in(comptes));
         }
         cq.where(predicates.toArray(new Predicate[0]));
 

@@ -9,11 +9,12 @@ import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import virement.international.entities.Beneficiare;
 import virement.international.entities.Client;
 
 @Entity
-@Data @AllArgsConstructor @NoArgsConstructor
+@Data @AllArgsConstructor @NoArgsConstructor @ToString
 public class AppUser {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
